@@ -1,0 +1,7 @@
+version: '2'
+services:
+  openluup:
+    build:
+      context: ./openluup
+    ports:
+      - "3480:3480"
