@@ -1,0 +1,23 @@
+diff --git "L_ALTUI.lua" "L_ALTUI-tbl-init.lua"
+index d0c420e..cc389bc 100644
+--- "L_ALTUI.lua"
++++ "L_ALTUI-tbl-init.lua"
+@@ -2292,7 +2292,7 @@ function myALTUI_Handler(lul_request, lul_parameters, lul_outputformat)
+ 		["home"] =
+ 			function(params)
+ 				local result = luup.variable_get(ALTUI_SERVICE, "PluginConfig", deviceID)
+-				local tbl = json.decode(result)
++				local tbl = json.decode(result) or {}
+ 				tbl ["info"] = {
+ 					["controllerType"] = "V",
+ 					["ui7Check"] = luup.variable_get(ALTUI_SERVICE, "UI7Check", deviceID) or "",
+@@ -4315,6 +4315,9 @@ function startupDeferred(lul_device)
+ 		end
+ 
+ 		luup.variable_set(ALTUI_SERVICE, "Version", version, lul_device)
++	else
++		local defconfigjson = json.encode( getDefaultConfig() )
++		config = getSetVariable(ALTUI_SERVICE, "PluginConfig", lul_device, defconfigjson )
+ 	end
+ 
+ 	-- init data storages
