@@ -5,3 +5,5 @@ services:
       context: ./openluup
     ports:
       - "3480:3480"
+    volumes:
+      - ./cmh-lu:/etc/cmh-lu/
