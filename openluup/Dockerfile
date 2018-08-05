@@ -12,7 +12,8 @@ RUN mkdir -p /etc/cmh-ludl/ /etc/cmh-ludl/backup /etc/cmh-lu/ && \
     wget https://github.com/akbooer/openLuup/raw/master/Utilities/openLuup_install.lua && \
     lua5.1 openLuup_install.lua && \
     rm openLuup_install.lua latest.tar.gz && \
-	(wget --tries 5 "http://localhost:3480/data_request?id=action&DeviceNum=3&serviceId=urn:upnp-org:serviceId:altui1&action=Reset" || true)
+    (wget --tries 5 "http://localhost:3480/data_request?id=action&DeviceNum=3&serviceId=urn:upnp-org:serviceId:altui1&action=Reset" || true) && \
+    wget https://github.com/pkulchenko/MobDebug/raw/master/src/mobdebug.lua
 
 WORKDIR /etc/cmh-ludl/
 
