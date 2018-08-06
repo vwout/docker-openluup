@@ -1,10 +1,15 @@
 # Use Debian 9 minimal image as base
 FROM debian:stretch-slim
+MAINTAINER vwout <vwout@users.noreply.github.com>
+
+ARG BUILD_DATE
+ARG VCS_REF
+ARG IMAGE_VERSION="0.0.1"
 
 # Add required packages
 RUN apt-get update && \
-    apt-get install -y lua5.1 lua-socket lua-filesystem lua-sec && \
-    apt-get install -y wget
+    apt-get install -y wget &&  \
+    apt-get install -y lua5.1 lua-socket lua-filesystem lua-sec
 
 # Install and configure openLuup
 RUN mkdir -p /etc/cmh-ludl/ /etc/cmh-ludl/backup /etc/cmh-lu/ && \
@@ -28,5 +33,11 @@ VOLUME ["/etc/cmh-ludl/backup/", "/etc/cmh-lu"]
 
 ENTRYPOINT ["/etc/cmh-ludl/openLuup_reload_for_docker", "user_data.json"]
 
-# Set some metadata
-LABEL maintainer="vwout"
+# Metadata
+LABEL maintainer="vwout <vwout@users.noreply.github.com>" \
+      org.label-schema.name="openLuup" \
+      org.label-schema.description="openLuup on Debian with AltUI" \
+      org.label-schema.vcs-url="https://github.com/vwout/docker-openluup.git" \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.schema-version="$IMAGE_VERSION"
