@@ -1,5 +1,10 @@
 # docker-openluup
-A Dockerfile and Composefile for creation of a Debian based openluup container.
+
+[![](https://images.microbadger.com/badges/image/vwout/openluup.svg)](https://microbadger.com/images/vwout/openluup "Docker image layers provided by microbadger.com")
+[![](https://images.microbadger.com/badges/version/vwout/openluup.svg)](https://microbadger.com/images/vwout/openluup "Docker image version provided by microbadger.com")
+[![](https://images.microbadger.com/badges/commit/vwout/openluup.svg)](https://microbadger.com/images/vwout/openluup "Docker image git commit provided by microbadger.com")
+
+A [Dockerfile](blob/master/openluup/Dockerfile) and [Composefile](blob/master/docker-compose.yml) for creation of a Debian based openluup container.
 
 [OpenLuup](https://github.com/akbooer/openLuup) is a pure Lua open-source emulation of the [Vera](http://getvera.com/) Luup environment.
 
