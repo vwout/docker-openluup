@@ -25,7 +25,7 @@ result=$?
 while [ $result -eq 42 ]
 do
    echo "`date` Reload openLuup"
-   lua5.1 openLuup/init.lua
+   lua5.1 openLuup/init.lua $1
    result=$?
 done
 

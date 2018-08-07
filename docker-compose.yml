@@ -1,9 +1,15 @@
 version: '2'
+
 services:
   openluup:
     build:
       context: ./openluup
+    # environment:
+    #   # Set the variable USER_DATA_JSON to provide a custom user_data.json file.
+    #   # Loading the user_data from a mounted volume will make the changes persistent.
+    #   - USER_DATA_JSON=/etc/cmh-lu/my_user_data.json
     ports:
       - "3480:3480"
     volumes:
+      # To add custom plugin code, mount a local directory as /etc/cmh-lu/
       - ./cmh-lu:/etc/cmh-lu/

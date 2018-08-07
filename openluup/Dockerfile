@@ -2,9 +2,13 @@
 FROM debian:stretch-slim
 MAINTAINER vwout <vwout@users.noreply.github.com>
 
+# Build arguments to set metadata labels
 ARG BUILD_DATE
 ARG VCS_REF
 ARG IMAGE_VERSION="0.0.1"
+
+# Change the environment variable USER_DATA to point to a different file for loading an alternative configuration
+ENV USER_DATA_JSON user_data.json
 
 # Add required packages
 RUN apt-get update && \
@@ -14,7 +18,7 @@ RUN apt-get update && \
 # Install and configure openLuup
 RUN mkdir -p /etc/cmh-ludl/ /etc/cmh-ludl/backup /etc/cmh-lu/ && \
     cd /etc/cmh-ludl/ && \
-    wget https://github.com/akbooer/openLuup/raw/master/Utilities/openLuup_install.lua && \
+    wget https://github.com/vwout/openLuup/raw/master/Utilities/openLuup_install.lua && \
     lua5.1 openLuup_install.lua && \
     rm openLuup_install.lua latest.tar.gz && \
     (wget --tries 5 "http://localhost:3480/data_request?id=action&DeviceNum=3&serviceId=urn:upnp-org:serviceId:altui1&action=Reset" || true) && \
@@ -29,9 +33,9 @@ RUN chmod +x openLuup_reload_for_docker
 # Expose the altUI web interface
 EXPOSE 3480
 
-VOLUME ["/etc/cmh-ludl/backup/", "/etc/cmh-lu"]
+VOLUME ["/etc/cmh-ludl/backup/", "/etc/cmh-lu/"]
 
-ENTRYPOINT ["/etc/cmh-ludl/openLuup_reload_for_docker", "user_data.json"]
+ENTRYPOINT /etc/cmh-ludl/openLuup_reload_for_docker $USER_DATA_JSON
 
 # Metadata
 LABEL maintainer="vwout <vwout@users.noreply.github.com>" \
