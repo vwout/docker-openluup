@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-  openluup:
+  openluup-master:
     build:
       context: ./openluup
     # environment:
@@ -13,3 +13,13 @@ services:
     volumes:
       # To add custom plugin code, mount a local directory as /etc/cmh-lu/
       - ./cmh-lu:/etc/cmh-lu/
+      # To add binds for backup and logs folder:
+      #- ./logs:/etc/cmh-ludl/logs/
+      #- ./backup:/etc/cmh-ludl/backup/
+
+  openluup-development:
+    extends:
+      service: openluup-master
+    build:
+      args:
+        - OPENLUUP_BRANCH=development
