@@ -5,7 +5,7 @@ MAINTAINER vwout <vwout@users.noreply.github.com>
 # Add required packages
 RUN apt-get update && \
     apt-get install -y wget &&  \
-    apt-get install -y lua5.1 lua-socket lua-filesystem lua-sec
+    apt-get install -y lua5.1 lua-socket lua-filesystem lua-sec lua-bit32 lua-bitop
 
 # Build arguments to set metadata labels
 ARG BUILD_DATE
