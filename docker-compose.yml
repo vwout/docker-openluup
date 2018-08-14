@@ -1,21 +1,31 @@
-version: '2'
+version: '2.3'
 
 services:
   openluup-master:
     build:
       context: ./openluup
-    # environment:
-    #   # Set the variable USER_DATA_JSON to provide a custom user_data.json file.
-    #   # Loading the user_data from a mounted volume will make the changes persistent.
-    #   - USER_DATA_JSON=/etc/cmh-lu/my_user_data.json
     ports:
       - "3480:3480"
+    # environment:
+    #   # Set the variable USER_DATA_JSON to provide a custom user_data.json file.
+    #   # This will make openLuup initialize its userdata from this json file.
+    #   # Notes:
+    #   # - Configuration updates will not be update to this file.
+    #   # - Plugins used in the configuration will not be installed automatically
+    #   - USER_DATA_JSON=/etc/cmh-lu/my_user_data.json
     volumes:
-      # To add custom plugin code, mount a local directory as /etc/cmh-lu/
-      - ./cmh-lu:/etc/cmh-lu/
-      # To add binds for backup and logs folder:
-      #- ./logs:/etc/cmh-ludl/logs/
-      #- ./backup:/etc/cmh-ludl/backup/
+      # The openLuup environment is stored in the container as /etc/cmh-ludl/
+      # This directory contains the plugins and user_data.
+      - type: volume
+        source: cmh-ludl
+        target: /etc/cmh-ludl/
+      # To add custom plugin code, a local directory can be mounted as /etc/cmh-lu/
+      - type: bind
+        source: ./cmh-lu
+        target: /etc/cmh-lu/
+      # To access logs and backups, use the respective volume mounts:
+      - cmh-ludl-logs:/etc/cmh-ludl/logs/
+      - cmh-ludl-backup:/etc/cmh-ludl/backup/
 
   openluup-development:
     extends:
@@ -23,3 +33,20 @@ services:
     build:
       args:
         - OPENLUUP_BRANCH=development
+
+volumes:
+  # The volume cmh-ludl will contain the complete openLuup environment
+  # including all plugins and the user_data.json file.
+  # These volumes are persistent.
+  cmh-ludl:
+    name: openluup-env
+    labels:
+      org.label-schema.description: "openLuup environment with plugins and userdata"
+  cmh-ludl-logs:
+    name: openluup-logs
+    labels:
+      org.label-schema.description: "openLuup logs"
+  cmh-ludl-backup:
+    name: openluup-backups
+    labels:
+      org.label-schema.description: "openLuup automatic backups"
