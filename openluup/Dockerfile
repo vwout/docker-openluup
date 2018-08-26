@@ -34,8 +34,10 @@ ADD openLuup_reload_for_docker /etc/cmh-ludl/
 RUN sed -i -e 's/\r$//' openLuup_reload_for_docker && \
     chmod +x openLuup_reload_for_docker
 
-# Expose the altUI web interface
-EXPOSE 3480
+# Expose the altUI web interface and console, running on port 3480 by default,
+# the interal SMTP server added in openLuup (v18.3.14), running on port 2525 by default
+# and the internal POP3 server, running on port 11011 by default
+EXPOSE 3480 2525 11011
 
 VOLUME ["/etc/cmh-ludl/", "/etc/cmh-ludl/backup/", "/etc/cmh-ludl/logs/", "/etc/cmh-lu/"]
 
