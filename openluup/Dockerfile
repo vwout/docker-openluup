@@ -31,7 +31,8 @@ WORKDIR /etc/cmh-ludl/
 
 # Add openLuup startup script and patch AltUI PluginConfig loading
 ADD openLuup_reload_for_docker /etc/cmh-ludl/
-RUN chmod +x openLuup_reload_for_docker
+RUN sed -i -e 's/\r$//' openLuup_reload_for_docker && \
+    chmod +x openLuup_reload_for_docker
 
 # Expose the altUI web interface
 EXPOSE 3480
