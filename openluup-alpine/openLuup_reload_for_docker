@@ -1,0 +1,38 @@
+#!/bin/sh
+#
+# Dockerized openLuup startup script with reload loop for openLuup
+# based on openLuup_reload @akbooer, Aug 2015
+# you may need to change ‘lua’ to ‘lua5.1’ depending on your install
+
+function openLuupShutdown {
+  echo "Requesting openLuup shutdown"
+  wget -q -O /dev/null "http://localhost:3480/data_request?id=exit" >> /dev/null 2>&1
+}
+
+# Capture the shutdown signal and call the luup shutdown URL call to abort the loop
+trap openLuupShutdown 2 3 9 15
+
+# Strip parameter automatically added by Docker
+if [ $# > 1 ]; then
+  if [[ "$1" = "." ]]; then
+    shift
+  fi
+fi
+
+# Run openLuup as long as the return code indicates a reload
+lua openLuup/init.lua $1
+result=$?
+
+while [ $result -eq 42 ]
+do
+   echo "`date` Reload openLuup"
+   lua openLuup/init.lua
+   result=$?
+done
+
+if [ $result -ne 0 ]; then
+  cat logs/LuaUPnP_startup.log
+  cat logs/LuaUPnP.log
+fi
+
+exit $result
