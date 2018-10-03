@@ -1,16 +1,17 @@
 # docker-openluup
 
-A [Dockerfile](blob/master/openluup/Dockerfile) and [Composefile](blob/master/docker-compose.yml) for creation of a Debian based openluup container.
+A Dockerfile and [Composefile](blob/master/docker-compose.yml) for creation of a [Debian](blob/master/openluup/Dockerfile) or [Alpine](blob/master/openluup-alpine/Dockerfile) based openluup container.
 
 [OpenLuup](https://github.com/akbooer/openLuup) is a pure Lua open-source emulation of the [Vera](http://getvera.com/) Luup environment.
 
 The Dockerized openluup environment is based on the openLuup installation script and starts with a running OpenLuup instance on port 3480 using a modified version of the openluup_reload script. This modified script adds a hook that captures the stop signal send to the container and calls the luup stop API call to gracefully shutdown a container.
 
-The docker image of openLuup is available from Docker Hub as [vwout/openluup](https://hub.docker.com/r/vwout/openluup/). This image contains the master branch code of openLuup.
+The docker image of openLuup is available from Docker Hub as [vwout/openluup](https://hub.docker.com/r/vwout/openluup/) and comes in two flavors: based on Debian (tagged 'slim') and based on Alpine (tagged 'alpine'). This image contains the master branch code of openLuup.
 
-| Layers | Label | Vcs Revision |
-|--------|-------|--------------|
-| [![](https://images.microbadger.com/badges/image/vwout/openluup.svg)](https://microbadger.com/images/vwout/openluup "Docker image layers provided by microbadger.com") | [![](https://images.microbadger.com/badges/version/vwout/openluup.svg)](https://microbadger.com/images/vwout/openluup "Docker image version provided by microbadger.com") | [![](https://images.microbadger.com/badges/commit/vwout/openluup.svg)](https://microbadger.com/images/vwout/openluup "Docker image git commit provided by microbadger.com") |
+| Base image | Label | Layers | Vcs Revision |
+|------------|-------|--------|--------------|
+| Debian stretch (slim) | [![](https://images.microbadger.com/badges/version/vwout/openluup.svg)](https://microbadger.com/images/vwout/openluup "Docker image version for slim") | [![](https://images.microbadger.com/badges/image/vwout/openluup.svg)](https://microbadger.com/images/vwout/openluup "Docker image layers for slim") | [![](https://images.microbadger.com/badges/commit/vwout/openluup.svg)](https://microbadger.com/images/vwout/openluup "Docker image git commit for slim") |
+| Alpine 3.8 | [![](https://images.microbadger.com/badges/version/vwout/openluup:alpine.svg)](https://microbadger.com/images/vwout/openluup:alpine "Docker image version for alpine") | [![](https://images.microbadger.com/badges/image/vwout/openluup:alpine.svg)](https://microbadger.com/images/vwout/openluup:alpine "Docker image layers for alpine") | [![](https://images.microbadger.com/badges/commit/vwout/openluup:alpine.svg)](https://microbadger.com/images/vwout/openluup:alpine "Docker image git commit for alpine") |
 
 ## Running
 To start openLuup, invoke docker and add options like volume mounts (see below) to your liking:
@@ -33,3 +34,6 @@ To obtain the configuration, use ```user_data.json``` from ```/etc/cmh-ludl/```,
 To keep the openLuup configuration and plugin data even when removing the openLuup image, use volumes. The image defines the volumes as mentioned above.
 
 For easiest operation, use the provided docker-compose file. It creates 3 named volumes (openluup-env, openluup-logs, openluup-backups) and contain the openLuup environment, logs and backups respectively.
+
+## Credits
+Credits for the alpine based lua (and luarocks) image go to Andriy Kornatskyy for his [docker-library for lua](https://github.com/akornatskyy/docker-library). The alpine image for openLuup is using alpine directly instead of using [akorn/luarocks](https://hub.docker.com/r/akorn/luarocks/) because that lua-alpine base image is compiled for posix instead of linux, which prevents the usage of modules installed via luarocks, and also for size optimization reasons.
