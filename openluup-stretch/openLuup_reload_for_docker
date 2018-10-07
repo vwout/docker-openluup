@@ -33,3 +33,5 @@ if [ $result -ne 0 ]; then
   cat logs/LuaUPnP_startup.log
   cat logs/LuaUPnP.log
 fi
+
+exit $result

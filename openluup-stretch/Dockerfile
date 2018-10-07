@@ -1,6 +1,7 @@
 # Use Debian 9 minimal image as base
 FROM debian:stretch-slim
-MAINTAINER vwout <vwout@users.noreply.github.com>
+
+MAINTAINER "Vwout <vwout@users.noreply.github.com>"
 
 # Add required packages
 RUN apt-get update && \
@@ -45,7 +46,7 @@ ENTRYPOINT /etc/cmh-ludl/openLuup_reload_for_docker $USER_DATA_JSON
 
 # Metadata
 LABEL maintainer="vwout <vwout@users.noreply.github.com>" \
-      org.label-schema.name="openLuup" \
+      org.label-schema.name="openLuup ($OPENLUUP_BRANCH)" \
       org.label-schema.description="openLuup on Debian with AltUI" \
       org.label-schema.vcs-url="https://github.com/vwout/docker-openluup.git" \
       org.label-schema.vcs-ref=$VCS_REF \
