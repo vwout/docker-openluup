@@ -18,6 +18,7 @@ RUN set -ex \
         curl \
         openssl \
         readline \
+        tzdata \
     \
     && apk add --no-cache --virtual .build-deps \
         gcc \
@@ -66,6 +67,9 @@ ARG OPENLUUP_BRANCH="master"
 
 # Change the environment variable USER_DATA to point to a different file for loading an alternative configuration
 ENV USER_DATA_JSON user_data.json
+
+# Set default timezone to UTC
+ENV TZ UTC
 
 # Install and configure openLuup
 RUN mkdir -p /etc/cmh-ludl/ /etc/cmh-ludl/backup /etc/cmh-lu/ \
