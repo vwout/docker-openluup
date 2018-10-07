@@ -1,9 +1,10 @@
 version: '2.3'
 
 services:
-  openluup-master:
+  openluup-slim-master:
+    image: openluup:master-slim
     build:
-      context: ./openluup
+      context: ./openluup-stretch
     ports:
       - "3480:3480"
     # environment:
@@ -27,9 +28,25 @@ services:
       - cmh-ludl-logs:/etc/cmh-ludl/logs/
       - cmh-ludl-backup:/etc/cmh-ludl/backup/
 
-  openluup-development:
+  openluup-slim-development:
+    image: openluup:development-slim
     extends:
-      service: openluup-master
+      service: openluup-slim-master
+    build:
+      args:
+        - OPENLUUP_BRANCH=development
+
+  openluup-alpine-master:
+    image: openluup:master-alpine
+    extends:
+      service: openluup-slim-master
+    build:
+      context: ./openluup-alpine
+
+  openluup-alpine-development:
+    image: openluup:development-alpine
+    extends:
+      service: openluup-alpine-master
     build:
       args:
         - OPENLUUP_BRANCH=development
