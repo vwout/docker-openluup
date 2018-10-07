@@ -80,6 +80,7 @@ RUN mkdir -p /etc/cmh-ludl/ /etc/cmh-ludl/backup /etc/cmh-lu/ \
     && lua openLuup_install.lua $OPENLUUP_BRANCH \
     && rm openLuup_install.lua latest.tar.gz \
     \
+    && ln -s /etc/cmh-ludl/logs /var/log/cmh \
     && (curl --retry 5 --connect-timeout 1 --retry-delay 0 --max-time 1 "http://localhost:3480/data_request?id=action&DeviceNum=3&serviceId=urn:upnp-org:serviceId:altui1&action=Reset" || true) \
     \
     && wget https://github.com/pkulchenko/MobDebug/raw/master/src/mobdebug.lua
@@ -99,7 +100,7 @@ EXPOSE 3480 2525 11011
 
 VOLUME ["/etc/cmh-ludl/", "/etc/cmh-ludl/backup/", "/etc/cmh-ludl/logs/", "/etc/cmh-lu/"]
 
-ENTRYPOINT /etc/cmh-ludl/openLuup_reload_for_docker $USER_DATA_JSON
+ENTRYPOINT /bin/sh /etc/cmh-ludl/openLuup_reload_for_docker $USER_DATA_JSON
 
 # Metadata
 LABEL maintainer="vwout <vwout@users.noreply.github.com>" \
