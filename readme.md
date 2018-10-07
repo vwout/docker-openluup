@@ -10,7 +10,7 @@ The docker image of openLuup is available from Docker Hub as [vwout/openluup](ht
 
 | Base image | Label | Layers | Vcs Revision |
 |------------|-------|--------|--------------|
-| Debian stretch (slim) | [![](https://images.microbadger.com/badges/version/vwout/openluup.svg)](https://microbadger.com/images/vwout/openluup "Docker image version for slim") | [![](https://images.microbadger.com/badges/image/vwout/openluup.svg)](https://microbadger.com/images/vwout/openluup "Docker image layers for slim") | [![](https://images.microbadger.com/badges/commit/vwout/openluup.svg)](https://microbadger.com/images/vwout/openluup "Docker image git commit for slim") |
+| Debian stretch (slim) | [![](https://images.microbadger.com/badges/version/vwout/openluup:slim.svg)](https://microbadger.com/images/vwout/openluup:slim "Docker image version for Debian") | [![](https://images.microbadger.com/badges/image/vwout/openluup:slim.svg)](https://microbadger.com/images/vwout/openluup:slim "Docker image layers for Debian") | [![](https://images.microbadger.com/badges/commit/vwout/openluup:slim.svg)](https://microbadger.com/images/vwout/openluup:slim "Docker image git commit for Debian") |
 | Alpine 3.8 | [![](https://images.microbadger.com/badges/version/vwout/openluup:alpine.svg)](https://microbadger.com/images/vwout/openluup:alpine "Docker image version for alpine") | [![](https://images.microbadger.com/badges/image/vwout/openluup:alpine.svg)](https://microbadger.com/images/vwout/openluup:alpine "Docker image layers for alpine") | [![](https://images.microbadger.com/badges/commit/vwout/openluup:alpine.svg)](https://microbadger.com/images/vwout/openluup:alpine "Docker image git commit for alpine") |
 
 ## Running
@@ -27,8 +27,11 @@ The image runs openLuup with AltUI out of the box. Confguration is easiest via A
 Additionally, openLuup provides a console interface for easy operational access at http://localhost:3480/console.
 
 OpenLuup is installed in ```/etc/cmh-ludl/```. This folder and the folders ```/etc/cmh-ludl/backup/``` and ```/etc/cmh-lu``` are shared as volumes to store user files or retrieve backups of the user_data JSON file.
-To provide a custom user_data.json file, mount it as ```/etc/cmh-ludl/user_data.json```, or set the path to an alternative user_data JSON file using the environment variable ```USER_DATA_JSON```. Setting the environment variable will load the provided userdata. openLuup will not update the userdata to the file. The json is only used during startup.
+
+### Environment
+- ```USER_DATA_JSON```: To provide a custom user_data.json file, mount it as ```/etc/cmh-ludl/user_data.json```, or set the path to an alternative user_data JSON file using the environment variable ```USER_DATA_JSON```. Setting the environment variable will load the provided userdata. openLuup will not update the userdata to the file. The json is only used during startup.
 To obtain the configuration, use ```user_data.json``` from ```/etc/cmh-ludl/```, or pick a backup from ```/etc/cmh-ludl/backup/```.
+- ```TZ```: The timezone used in the container can be set using the ```TZ``` environment variable. The image defaults to ```UTC```. Both timezone names (e.g. 'Europe/Amsterdam') and UTC offsets (e.g. 'GMT+2').
 
 ## Persisting configuration
 To keep the openLuup configuration and plugin data even when removing the openLuup image, use volumes. The image defines the volumes as mentioned above.
