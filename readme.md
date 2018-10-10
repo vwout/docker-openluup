@@ -38,5 +38,23 @@ To keep the openLuup configuration and plugin data even when removing the openLu
 
 For easiest operation, use the provided docker-compose file. It creates 3 named volumes (openluup-env, openluup-logs, openluup-backups) and contain the openLuup environment, logs and backups respectively.
 
+You can also do this manually.
+Start by creating docker volumes:
+
+    docker volume create openluup-env
+    docker volume create openluup-logs
+    docker volume create openluup-backups
+
+Create an openLuup container, e.g. based on Alpine linux and mount the created (still empty) volumes:
+
+    docker run -d \
+           -v openluup-env:/etc/cmh-ludl/ \
+           -v openluup-logs:/etc/cmh-ludl/logs/ \
+           -v openluup-backups:/etc/cmh-ludl/backup/ \
+           -p 3480:3480
+           vwout/openluup:alpine
+
+Any configuration change that you apply on openLuup or AltUI, like installing and configuring plugins, will be saved on the ```openluup-env``` volume. This volume will not be removed when the container stops or the image is removed. The data is only deleted upon a ```docker volume rm``` action.
+
 ## Credits
 Credits for the alpine based lua (and luarocks) image go to Andriy Kornatskyy for his [docker-library for lua](https://github.com/akornatskyy/docker-library). The alpine image for openLuup is using alpine directly instead of using [akorn/luarocks](https://hub.docker.com/r/akorn/luarocks/) because that lua-alpine base image is compiled for posix instead of linux, which prevents the usage of modules installed via luarocks, and also for size optimization reasons.
