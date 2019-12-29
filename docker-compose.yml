@@ -4,7 +4,7 @@ services:
   openluup-slim-master:
     image: openluup:master-slim
     build:
-      context: ./openluup-stretch
+      context: ./openluup-debian
     ports:
       - "3480:3480"
     # environment:

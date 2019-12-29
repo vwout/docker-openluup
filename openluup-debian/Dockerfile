@@ -1,5 +1,5 @@
-# Use Debian 9 minimal image as base
-FROM debian:stretch-slim
+# Use Debian 10 'Buster' minimal image as base
+FROM debian:buster-slim
 
 MAINTAINER "Vwout <vwout@users.noreply.github.com>"
 
@@ -12,7 +12,7 @@ RUN apt-get update && \
 # Build arguments to set metadata labels
 ARG BUILD_DATE
 ARG VCS_REF
-ARG IMAGE_VERSION="0.0.1"
+ARG IMAGE_VERSION="0.1.0"
 ARG OPENLUUP_FORK="akbooer"
 ARG OPENLUUP_BRANCH="master"
 

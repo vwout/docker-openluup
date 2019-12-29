@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine:3.11
 
 MAINTAINER "Vwout <vwout@users.noreply.github.com>"
 
@@ -61,7 +61,7 @@ RUN set -ex \
 # Build arguments to install openluup and set metadata labels
 ARG BUILD_DATE
 ARG VCS_REF
-ARG IMAGE_VERSION="0.0.1"
+ARG IMAGE_VERSION="0.1.0"
 ARG OPENLUUP_FORK="akbooer"
 ARG OPENLUUP_BRANCH="master"
 
