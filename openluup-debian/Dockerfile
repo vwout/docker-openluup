@@ -1,3 +1,23 @@
+# Use Debian 10 'Buster' minimal image as base for building luacoap
+FROM debian:buster-slim as coap-build-build
+
+# Add required packages
+RUN apt-get update && \
+    apt-get install -y git cmake libtool autoconf-archive openssl libssl-dev lua5.1 lua5.1-dev
+    
+
+RUN git clone https://github.com/vwout/luacoap && \
+    cd luacoap && \
+    git checkout 19b2ac69d6bd4534737f853b8ca5bee28041cd5a && \
+    mkdir build && \
+    cd  build && \
+    cmake -DLUA_VERSION=5.1 .. && \
+    make && \
+    make install
+
+
+
+##############################################################################
 # Use Debian 10 'Buster' minimal image as base
 FROM debian:buster-slim
 
@@ -6,7 +26,7 @@ MAINTAINER "Vwout <vwout@users.noreply.github.com>"
 # Add required packages
 RUN apt-get update && \
     apt-get install -y wget &&  \
-    apt-get install -y lua5.1 lua-socket lua-filesystem lua-sec lua-bit32 lua-bitop \
+    apt-get install -y lua5.1 liblua5.1-0 lua-socket lua-filesystem lua-sec lua-bit32 lua-bitop \
  && rm -rf /var/lib/apt/lists/*
 
 # Build arguments to set metadata labels
@@ -18,6 +38,9 @@ ARG OPENLUUP_BRANCH="master"
 
 # Change the environment variable USER_DATA to point to a different file for loading an alternative configuration
 ENV USER_DATA_JSON user_data.json
+
+# Install lua coap library from coap-build-build image
+COPY --from=coap-build-build /usr/local/lib/lua/5.1/coap.so /usr/local/lib/lua/5.1/
 
 # Install and configure openLuup
 RUN mkdir -p /etc/cmh-ludl/ /etc/cmh-ludl/backup /etc/cmh-lu/ && \
