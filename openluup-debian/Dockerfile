@@ -3,12 +3,12 @@ FROM debian:buster-slim as coap-build-build
 
 # Add required packages
 RUN apt-get update && \
-    apt-get install -y git cmake libtool autoconf-archive openssl libssl-dev lua5.1 lua5.1-dev
+    apt-get install -y git cmake libtool autoconf-archive openssl libssl-dev libcurl4-openssl-dev lua5.1 lua5.1-dev
     
 
 RUN git clone https://github.com/vwout/luacoap && \
     cd luacoap && \
-    git checkout 19b2ac69d6bd4534737f853b8ca5bee28041cd5a && \
+    git checkout 03e16eac2b1918656d45dfc70ff98938843e9544 && \
     mkdir build && \
     cd  build && \
     cmake -DLUA_VERSION=5.1 .. && \
@@ -26,7 +26,7 @@ MAINTAINER "Vwout <vwout@users.noreply.github.com>"
 # Add required packages
 RUN apt-get update && \
     apt-get install -y wget &&  \
-    apt-get install -y lua5.1 liblua5.1-0 lua-socket lua-filesystem lua-sec lua-bit32 lua-bitop \
+    apt-get install -y openssl libcurl4 lua5.1 liblua5.1-0 lua-socket lua-filesystem lua-sec lua-bit32 lua-bitop \
  && rm -rf /var/lib/apt/lists/*
 
 # Build arguments to set metadata labels
