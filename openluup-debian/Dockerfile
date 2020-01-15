@@ -8,7 +8,7 @@ RUN apt-get update && \
 
 RUN git clone https://github.com/vwout/luacoap && \
     cd luacoap && \
-    git checkout 03e16eac2b1918656d45dfc70ff98938843e9544 && \
+    git checkout 702acbe694850c629bc5a227d947872fce9f46d3 && \
     mkdir build && \
     cd  build && \
     cmake -DLUA_VERSION=5.1 .. && \
