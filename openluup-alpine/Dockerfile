@@ -1,10 +1,15 @@
+##############################################################################
+# Use Alpine 3.11 image as base
 FROM alpine:3.11
 
 MAINTAINER "Vwout <vwout@users.noreply.github.com>"
 
 ARG LUA_VERSION=5.1.5
 ARG LUAROCKS_VERSION=3.0.0
+ARG LUACOAP_RELEASE=2343ebc7565d621b356e162aee583aac23885e61
 ARG INSTALL_ROCKS="luasocket luafilesystem luasec luabit32 luabitop"
+
+COPY lua-${LUA_VERSION}-so.patch /
 
 #
 # Add lua and luarocks to install lua modules (a.k.a. rocks)
@@ -23,7 +28,12 @@ RUN set -ex \
     && apk add --no-cache --virtual .build-deps \
         gcc \
         git \
-        libc-dev \
+        cmake \
+        libtool \
+        autoconf-archive \
+        automake \
+        bsd-compat-headers \
+        musl-dev \
         make \
         ncurses-dev \
         openssl-dev \
@@ -33,12 +43,25 @@ RUN set -ex \
         -O - | tar -xzf - \
     \
     && cd lua-${LUA_VERSION} \
+    && patch -p1 < /lua-${LUA_VERSION}-so.patch \
+    && rm /lua-${LUA_VERSION}-so.patch \
     && make -j"$(nproc)" linux \
     && make install \
-    && cd .. \
-    && rm -rf lua-${LUA_VERSION} \
+    && cd / \
+    && rm -rf /lua-${LUA_VERSION} \
     \
     && ln -s /usr/local/bin/lua /usr/local/bin/lua5.1 \
+    \
+    && git clone https://github.com/vwout/luacoap \
+    && cd luacoap \
+    && git checkout ${LUACOAP_RELEASE} \
+    && mkdir build \
+    && cd build \
+    && cmake -DLUA_VERSION=5.1 .. \
+    && make \
+    && make install \
+    && cd / \
+    && rm -rf /luacoap \
     \
     && wget -c https://github.com/luarocks/luarocks/archive/v${LUAROCKS_VERSION}.tar.gz \
         -O - | tar -xzf - \
