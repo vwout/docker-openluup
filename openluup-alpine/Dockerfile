@@ -6,7 +6,7 @@ MAINTAINER "Vwout <vwout@users.noreply.github.com>"
 
 ARG LUA_VERSION=5.1.5
 ARG LUAROCKS_VERSION=3.0.0
-ARG LUACOAP_RELEASE=2343ebc7565d621b356e162aee583aac23885e61
+ARG LUACOAP_RELEASE=aa58ad22fbe3ea9ff83e5f1b93af968e825bc956
 ARG INSTALL_ROCKS="luasocket luafilesystem luasec luabit32 luabitop"
 
 COPY lua-${LUA_VERSION}-so.patch /

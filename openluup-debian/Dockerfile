@@ -1,6 +1,8 @@
 # Use Debian 10 'Buster' minimal image as base for building luacoap
 FROM debian:buster-slim as coap-build-build
 
+ARG LUACOAP_RELEASE=aa58ad22fbe3ea9ff83e5f1b93af968e825bc956
+
 # Add required packages
 RUN apt-get update && \
     apt-get install -y git cmake libtool autoconf-archive openssl libssl-dev lua5.1 lua5.1-dev
@@ -8,7 +10,7 @@ RUN apt-get update && \
 
 RUN git clone https://github.com/vwout/luacoap && \
     cd luacoap && \
-    git checkout 2343ebc7565d621b356e162aee583aac23885e61 && \
+    git checkout ${LUACOAP_RELEASE} && \
     mkdir build && \
     cd build && \
     cmake -DLUA_VERSION=5.1 .. && \
