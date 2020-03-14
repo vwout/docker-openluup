@@ -20,6 +20,9 @@ if [ $# -gt 1 ]; then
   fi
 fi
 
+tail -F logs/LuaUPnP_startup.log &
+tail -F logs/LuaUPnP.log &
+
 # Run openLuup as long as the return code indicates a reload
 lua5.1 openLuup/init.lua $@
 result=$?
@@ -30,10 +33,5 @@ do
    lua5.1 openLuup/init.lua
    result=$?
 done
-
-if [ $result -ne 0 ]; then
-  cat logs/LuaUPnP_startup.log
-  cat logs/LuaUPnP.log
-fi
 
 exit $result
