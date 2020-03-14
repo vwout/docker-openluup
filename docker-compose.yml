@@ -14,6 +14,7 @@ services:
     #   # - Configuration updates will not be update to this file.
     #   # - Plugins used in the configuration will not be installed automatically
     #   - USER_DATA_JSON=/etc/cmh-lu/my_user_data.json
+    restart: unless-stopped
     volumes:
       # The openLuup environment is stored in the container as /etc/cmh-ludl/
       # This directory contains the plugins and user_data.
