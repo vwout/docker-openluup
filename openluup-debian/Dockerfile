@@ -1,7 +1,7 @@
 # Use Debian 10 'Buster' minimal image as base for building luacoap
 FROM debian:buster-slim as coap-build-build
 
-ARG LUACOAP_RELEASE=aa58ad22fbe3ea9ff83e5f1b93af968e825bc956
+ARG LUACOAP_RELEASE=36239e67cceea99bd50893f38d039e3758513c41
 
 # Add required packages
 RUN apt-get update && \
