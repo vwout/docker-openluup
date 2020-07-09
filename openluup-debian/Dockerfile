@@ -27,7 +27,7 @@ MAINTAINER "Vwout <vwout@users.noreply.github.com>"
 
 # Add required packages
 RUN apt-get update && \
-    apt-get install -y wget &&  \
+    apt-get install -y curl &&  \
     apt-get install -y openssl lua5.1 liblua5.1-0 lua-socket lua-filesystem lua-sec lua-bit32 lua-bitop \
  && rm -rf /var/lib/apt/lists/*
 
@@ -47,12 +47,12 @@ COPY --from=coap-build-build /usr/local/lib/lua/5.1/coap.so /usr/local/lib/lua/5
 # Install and configure openLuup
 RUN mkdir -p /etc/cmh-ludl/ /etc/cmh-ludl/backup /etc/cmh-lu/ && \
     cd /etc/cmh-ludl/ && \
-    wget https://github.com/$OPENLUUP_FORK/openLuup/raw/$OPENLUUP_BRANCH/Utilities/openLuup_install.lua && \
+    curl -L -sS https://github.com/$OPENLUUP_FORK/openLuup/raw/$OPENLUUP_BRANCH/Utilities/openLuup_install.lua --output openLuup_install.lua && \
     lua5.1 openLuup_install.lua $OPENLUUP_BRANCH && \
     rm openLuup_install.lua latest.tar.gz && \
     ln -s /etc/cmh-ludl/logs /var/log/cmh && \
-    (wget --tries 5 "http://localhost:3480/data_request?id=action&DeviceNum=3&serviceId=urn:upnp-org:serviceId:altui1&action=Reset" || true) && \
-    wget https://github.com/pkulchenko/MobDebug/raw/master/src/mobdebug.lua
+    (curl --retry 5 "http://localhost:3480/data_request?id=action&DeviceNum=3&serviceId=urn:upnp-org:serviceId:altui1&action=Reset" --silent || true) && \
+    curl -L -sS https://github.com/pkulchenko/MobDebug/raw/master/src/mobdebug.lua --output mobdebug.lua
 
 WORKDIR /etc/cmh-ludl/
 
