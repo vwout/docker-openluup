@@ -45,10 +45,12 @@ ENV USER_DATA_JSON user_data.json
 COPY --from=coap-build-build /usr/local/lib/lua/5.1/coap.so /usr/local/lib/lua/5.1/
 
 # Install supplementary libraries
-RUN mkdir -p /usr/local/lib/lua/5.1/ && \
+RUN mkdir -p /usr/local/lib/lua/5.1/ /usr/local/lib/lua/5.1/paho && \
     curl -L -sS "https://github.com/pkulchenko/MobDebug/raw/master/src/mobdebug.lua" -o /usr/local/lib/lua/5.1/mobdebug.lua && \
     curl -L -sS "http://regex.info/code/JSON.lua" -o /usr/local/lib/lua/5.1/JSON.lua && \
-    curl -L -sS "http://dkolf.de/src/dkjson-lua.fsl/raw/dkjson.lua?name=16cbc26080996d9da827df42cb0844a25518eeb3" -o /usr/local/lib/lua/5.1/dkjson.lua
+    curl -L -sS "http://dkolf.de/src/dkjson-lua.fsl/raw/dkjson.lua?name=16cbc26080996d9da827df42cb0844a25518eeb3" -o /usr/local/lib/lua/5.1/dkjson.lua && \
+    curl -L -sS "https://git.eclipse.org/c/paho/org.eclipse.paho.mqtt.lua.git/plain/paho/mqtt.lua" -o /usr/local/lib/lua/5.1/mqtt_library.lua && \
+    curl -L -sS "https://git.eclipse.org/c/paho/org.eclipse.paho.mqtt.lua.git/plain/paho/utility.lua" -o /usr/local/lib/lua/5.1/paho/utility.lua
 
 # Install and configure openLuup
 RUN mkdir -p /etc/cmh-ludl/ /etc/cmh-ludl/backup /etc/cmh-lu/ && \
