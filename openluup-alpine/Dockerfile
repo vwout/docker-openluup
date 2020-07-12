@@ -21,6 +21,7 @@ RUN set -ex \
     && apk add --no-cache \
         ca-certificates \
         curl \
+        iputils \
         openssl \
         readline \
         tzdata \
