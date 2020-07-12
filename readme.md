@@ -1,4 +1,4 @@
-# docker-openluup
+ # docker-openluup
 
 A Dockerfile and [Composefile](blob/master/docker-compose.yml) for creation of a [Debian](blob/master/openluup/Dockerfile) or [Alpine](blob/master/openluup-alpine/Dockerfile) based openluup container.
 
@@ -19,8 +19,12 @@ The docker image of openLuup is available from Docker Hub as [vwout/openluup](ht
 To start openLuup, invoke docker and add options like volume mounts (see below) to your liking:
 
     docker run -p 3480:3480 vwout/openluup
+    
+When a container is started in this manner, the configuration and plugins are stored with the container.
+This means that when the container is removed, the configuration is also lost.
 
-For ease of use, the docker-compose.yml file defines the openLuup image in two variants (using the master and development branch of openLuup) and contains a definition for mapping ports, binding a local directory for plugin development and mounting named volumes.
+The `docker-compose.yml` file in the repository defines the openLuup image in two variants (using the master and development branch of openLuup), 
+for both a debian and alpine based image and contains a definition for mapping ports, binding a local directory for plugin development and mounting named volumes.
 
     docker-compose up openluup-development
 
@@ -36,9 +40,30 @@ To obtain the configuration, use ```user_data.json``` from ```/etc/cmh-ludl/```,
 - ```TZ```: The timezone used in the container can be set using the ```TZ``` environment variable. The image defaults to ```UTC```. Both timezone names (e.g. 'Europe/Amsterdam') and UTC offsets (e.g. 'GMT+2').
 
 ## Persisting configuration
-To keep the openLuup configuration and plugin data even when removing the openLuup image, use volumes. The image defines the volumes as mentioned above.
+To keep the openLuup configuration and plugin data even when removing the openLuup container, use volumes.
+The following `docker-compose.yml` defines a volume that will contain the configuration and plugin files:
 
-For easiest operation, use the provided docker-compose file. It creates 3 named volumes (openluup-env, openluup-logs, openluup-backups) and contain the openLuup environment, logs and backups respectively.
+    version: '2.3'
+    
+    services:
+      openluup:
+        image: vwout/openluup:alpine
+        ports:
+          - "3480:3480"
+        restart: unless-stopped
+        volumes:
+          - type: volume
+            source: cmh-ludl
+            target: /etc/cmh-ludl/
+    
+    volumes:
+      cmh-ludl:
+        name: openluup-env
+        labels:
+          org.label-schema.description: "openLuup environment with plugins and userdata"
+
+For easiest operation during development, use the [docker-compose.yml](docker-compose.yml) file in the repository.
+It creates 3 named volumes (openluup-env, openluup-logs, openluup-backups) and contain the openLuup environment, logs and backups respectively.
 
 You can also do this manually.
 Start by creating docker volumes:
