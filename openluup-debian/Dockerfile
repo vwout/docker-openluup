@@ -28,7 +28,7 @@ MAINTAINER "Vwout <vwout@users.noreply.github.com>"
 # Add required packages
 RUN apt-get update && \
     apt-get install -y curl iputils-ping &&  \
-    apt-get install -y openssl lua5.1 liblua5.1-0 lua-socket lua-filesystem lua-sec lua-bit32 lua-bitop lua-cjson \
+    apt-get install -y openssl lua5.1 liblua5.1-0 lua-socket lua-filesystem lua-sec lua-bit32 lua-bitop lua-cjson lua-expat \
  && rm -rf /var/lib/apt/lists/*
 
 # Build arguments to set metadata labels

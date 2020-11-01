@@ -7,7 +7,7 @@ MAINTAINER "Vwout <vwout@users.noreply.github.com>"
 ARG LUA_VERSION=5.1.5
 ARG LUAROCKS_VERSION=3.0.0
 ARG LUACOAP_RELEASE=443fa5f82921350b8cc5212834dd557af584ae8a
-ARG INSTALL_ROCKS="luasocket luafilesystem luasec luabit32 luabitop lua-cjson"
+ARG INSTALL_ROCKS="luasocket luafilesystem luasec luabit32 luabitop lua-cjson luaexpat"
 
 COPY lua-${LUA_VERSION}-so.patch /
 
@@ -25,6 +25,7 @@ RUN set -ex \
         openssl \
         readline \
         tzdata \
+        expat \
     \
     && apk add --no-cache --virtual .build-deps \
         gcc \
@@ -39,6 +40,7 @@ RUN set -ex \
         ncurses-dev \
         openssl-dev \
         readline-dev \
+        expat-dev \
     \
     && wget -c https://www.lua.org/ftp/lua-${LUA_VERSION}.tar.gz \
         -O - | tar -xzf - \
