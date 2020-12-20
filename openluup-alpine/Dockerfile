@@ -5,6 +5,7 @@ FROM alpine:3.11
 MAINTAINER "Vwout <vwout@users.noreply.github.com>"
 
 ARG LUA_VERSION=5.1.5
+ARG LUAJIT_VERSION=2.1.0-beta3
 ARG LUAROCKS_VERSION=3.0.0
 ARG LUACOAP_RELEASE=443fa5f82921350b8cc5212834dd557af584ae8a
 ARG INSTALL_ROCKS="luasocket luafilesystem luasec luabit32 luabitop lua-cjson luaexpat"
@@ -26,6 +27,7 @@ RUN set -ex \
         readline \
         tzdata \
         expat \
+        libgcc \
     \
     && apk add --no-cache --virtual .build-deps \
         gcc \
@@ -54,6 +56,17 @@ RUN set -ex \
     && rm -rf /lua-${LUA_VERSION} \
     \
     && ln -s /usr/local/bin/lua /usr/local/bin/lua5.1 \
+    \
+    && wget -c https://luajit.org/download/LuaJIT-${LUAJIT_VERSION}.tar.gz \
+        -O - | tar -xzf - \
+    \
+    && cd LuaJIT-${LUAJIT_VERSION} \
+    && make -j"$(nproc)" \
+    && make install \
+    && cd / \
+    && rm -rf /LuaJIT-${LUAJIT_VERSION} \
+    \
+    && ln -s /usr/local/bin/luajit-2.1.0-beta3 /usr/local/bin/luajit \
     \
     && git clone https://github.com/vwout/luacoap \
     && cd luacoap \
@@ -112,7 +125,7 @@ RUN mkdir -p /etc/cmh-ludl/ /etc/cmh-ludl/backup /etc/cmh-lu/ \
     && cd /etc/cmh-ludl/ \
     \
     && wget https://github.com/$OPENLUUP_FORK/openLuup/raw/$OPENLUUP_BRANCH/Utilities/openLuup_install.lua \
-    && lua openLuup_install.lua $OPENLUUP_BRANCH \
+    && luajit openLuup_install.lua $OPENLUUP_BRANCH \
     && rm openLuup_install.lua latest.tar.gz \
     \
     && ln -s /etc/cmh-ludl/logs /var/log/cmh \

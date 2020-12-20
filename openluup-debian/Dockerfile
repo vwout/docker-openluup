@@ -1,6 +1,7 @@
 # Use Debian 10 'Buster' minimal image as base for building luacoap
 FROM debian:buster-slim as coap-build-build
 
+ARG LUAJIT_VERSION=2.1.0~beta3+dfsg-5.1
 ARG LUACOAP_RELEASE=443fa5f82921350b8cc5212834dd557af584ae8a
 
 # Add required packages
@@ -28,7 +29,7 @@ MAINTAINER "Vwout <vwout@users.noreply.github.com>"
 # Add required packages
 RUN apt-get update && \
     apt-get install -y curl iputils-ping &&  \
-    apt-get install -y openssl lua5.1 liblua5.1-0 lua-socket lua-filesystem lua-sec lua-bit32 lua-bitop lua-cjson lua-expat \
+    apt-get install -y openssl luajit=2.1.0~beta3+dfsg-5.1 lua5.1 liblua5.1-0 lua-socket lua-filesystem lua-sec lua-bit32 lua-bitop lua-cjson lua-expat \
  && rm -rf /var/lib/apt/lists/*
 
 # Build arguments to set metadata labels
@@ -56,7 +57,7 @@ RUN mkdir -p /usr/local/lib/lua/5.1/ /usr/local/lib/lua/5.1/paho && \
 RUN mkdir -p /etc/cmh-ludl/ /etc/cmh-ludl/backup /etc/cmh-lu/ && \
     cd /etc/cmh-ludl/ && \
     curl -L -sS https://github.com/$OPENLUUP_FORK/openLuup/raw/$OPENLUUP_BRANCH/Utilities/openLuup_install.lua --output openLuup_install.lua && \
-    lua5.1 openLuup_install.lua $OPENLUUP_BRANCH && \
+    luajit openLuup_install.lua $OPENLUUP_BRANCH && \
     rm openLuup_install.lua latest.tar.gz && \
     ln -s /etc/cmh-ludl/logs /var/log/cmh && \
     (curl --retry 5 "http://localhost:3480/data_request?id=action&DeviceNum=3&serviceId=urn:upnp-org:serviceId:altui1&action=Reset" --silent || true)
