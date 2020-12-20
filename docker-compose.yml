@@ -43,6 +43,10 @@ services:
       service: openluup-slim-master
     build:
       context: ./openluup-alpine
+    volumes:
+      - type: volume
+        source: cmh-ludl-alpine
+        target: /etc/cmh-ludl/
 
   openluup-alpine-development:
     image: openluup:development-alpine
@@ -60,6 +64,10 @@ volumes:
     name: openluup-env
     labels:
       org.label-schema.description: "openLuup environment with plugins and userdata"
+  cmh-ludl-alpine:
+    name: openluup-env-alpine
+    labels:
+      org.label-schema.description: "openLuup environment with plugins and userdata on Alpine"
   cmh-ludl-logs:
     name: openluup-logs
     labels:
