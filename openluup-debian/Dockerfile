@@ -80,7 +80,7 @@ VOLUME ["/etc/cmh-ludl/", "/etc/cmh-ludl/backup/", "/etc/cmh-ludl/logs/", "/etc/
 ENTRYPOINT /etc/cmh-ludl/openLuup_reload_for_docker $USER_DATA_JSON
 
 # Metadata
-LABEL maintainer="vwout <vwout@users.noreply.github.com>" \
+LABEL org.opencontainers.image.authors="vwout <vwout@users.noreply.github.com>" \
       org.label-schema.name="openLuup ($OPENLUUP_BRANCH)" \
       org.label-schema.description="openLuup on Debian with AltUI" \
       org.label-schema.vcs-url="https://github.com/vwout/docker-openluup.git" \
