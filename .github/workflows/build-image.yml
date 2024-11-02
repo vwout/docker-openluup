@@ -1,0 +1,49 @@
+name: Build and push Docker image to dockerhub
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v4
+
+    - name: Get variables
+      id: vars
+      run: |
+        echo "build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
+        echo "vcs_ref=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Login to dockerhub
+      uses: docker/login-action@v3
+      with:
+       username: ${{ secrets.DOCKERHUB_USERNAME }}
+       password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build Alpine and push to dockerhub
+      uses: docker/build-push-action@v6
+      with:
+       context: ./openluup-alpine
+       push: true
+       build-args: |
+         BUILD_DATE=${{ steps.vars.outputs.build_date }}
+         VCS_REF=${{ steps.vars.outputs.vcs_ref }}
+       tags: |
+         vwout/openluup:alpine
+
+    - name: Build Debian and push to dockerhub
+      uses: docker/build-push-action@v6
+      with:
+       context: ./openluup-debian
+       push: true
+       build-args: |
+         BUILD_DATE=${{ steps.vars.outputs.build_date }}
+         VCS_REF=${{ steps.vars.outputs.vcs_ref }}
+       tags: |
+         vwout/openluup:latest
+         vwout/openluup:slim
+         vwout/openluup:bookworm-slim
