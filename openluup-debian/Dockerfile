@@ -47,8 +47,8 @@ COPY --from=coap-build-build /usr/local/lib/lua/5.1/coap.so /usr/local/lib/lua/5
 
 # Install supplementary libraries
 RUN mkdir -p /usr/local/lib/lua/5.1/ /usr/local/lib/lua/5.1/paho && \
-    curl -L -sS "https://github.com/pkulchenko/MobDebug/raw/master/src/mobdebug.lua" -o /usr/local/lib/lua/5.1/mobdebug.lua && \
-    curl -L -sS "http://regex.info/code/JSON.lua" -o /usr/local/lib/lua/5.1/JSON.lua && \
+    curl -L -sS "https://raw.githubusercontent.com/pkulchenko/MobDebug/master/src/mobdebug.lua" -o /usr/local/lib/lua/5.1/mobdebug.lua && \
+    curl --insecure -L -sS "http://regex.info/code/JSON.lua" -o /usr/local/lib/lua/5.1/JSON.lua && \
     curl -L -sS "http://dkolf.de/dkjson-lua/dkjson-2.8.lua" -o /usr/local/lib/lua/5.1/dkjson.lua && \
     curl -L -sS "https://raw.githubusercontent.com/iotrac/mqtt-lua/master/paho/mqtt.lua" -o /usr/local/lib/lua/5.1/mqtt_library.lua && \
     curl -L -sS "https://raw.githubusercontent.com/iotrac/mqtt-lua/master/paho/utility.lua" -o /usr/local/lib/lua/5.1/utility.lua
@@ -57,6 +57,7 @@ RUN mkdir -p /usr/local/lib/lua/5.1/ /usr/local/lib/lua/5.1/paho && \
 RUN mkdir -p /etc/cmh-ludl/ /etc/cmh-ludl/backup /etc/cmh-lu/ && \
     cd /etc/cmh-ludl/ && \
     curl -L -sS https://github.com/$OPENLUUP_FORK/openLuup/raw/$OPENLUUP_BRANCH/Utilities/openLuup_install.lua --output openLuup_install.lua && \
+    sed -i 's@http://dkolf.de/src/dkjson-lua.fsl/raw/dkjson.lua?name=16cbc26080996d9da827df42cb0844a25518eeb3@http://dkolf.de/dkjson-lua/dkjson-2.8.lua@g' openLuup_install.lua && \
     luajit openLuup_install.lua $OPENLUUP_BRANCH && \
     rm openLuup_install.lua latest.tar.gz && \
     ln -s /etc/cmh-ludl/logs /var/log/cmh && \
