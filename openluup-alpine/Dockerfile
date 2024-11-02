@@ -1,8 +1,6 @@
 ##############################################################################
-# Use Alpine 3.11 image as base
-FROM alpine:3.11
-
-MAINTAINER "Vwout <vwout@users.noreply.github.com>"
+# Use Alpine 3.20 image as base
+FROM alpine:3.20
 
 ARG LUA_VERSION=5.1.5
 ARG LUAJIT_VERSION=2.1.0-beta3
@@ -41,6 +39,7 @@ RUN set -ex \
         make \
         ncurses-dev \
         openssl-dev \
+        patch \
         readline-dev \
         expat-dev \
     \
@@ -100,7 +99,7 @@ RUN set -ex \
 # Build arguments to install openluup and set metadata labels
 ARG BUILD_DATE
 ARG VCS_REF
-ARG IMAGE_VERSION="0.1.0"
+ARG IMAGE_VERSION="0.2.0"
 ARG OPENLUUP_FORK="akbooer"
 ARG OPENLUUP_BRANCH="master"
 

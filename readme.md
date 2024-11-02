@@ -10,10 +10,10 @@ The Dockerized openluup environment is based on the openLuup installation script
 
 The docker image of openLuup is available from Docker Hub as [vwout/openluup](https://hub.docker.com/r/vwout/openluup/) and comes in two flavors: based on Debian (tagged 'slim') and based on Alpine (tagged 'alpine'). This image contains the master branch code of openLuup.
 
-| Base image | Label | Layers | Vcs Revision |
-|------------|-------|--------|--------------|
-| Debian 10 'Buster' (slim) | [![](https://images.microbadger.com/badges/version/vwout/openluup:slim.svg)](https://microbadger.com/images/vwout/openluup:slim "Docker image version for Debian") | [![](https://images.microbadger.com/badges/image/vwout/openluup:slim.svg)](https://microbadger.com/images/vwout/openluup:slim "Docker image layers for Debian") | [![](https://images.microbadger.com/badges/commit/vwout/openluup:slim.svg)](https://microbadger.com/images/vwout/openluup:slim "Docker image git commit for Debian") |
-| Alpine 3.11 | [![](https://images.microbadger.com/badges/version/vwout/openluup:alpine.svg)](https://microbadger.com/images/vwout/openluup:alpine "Docker image version for alpine") | [![](https://images.microbadger.com/badges/image/vwout/openluup:alpine.svg)](https://microbadger.com/images/vwout/openluup:alpine "Docker image layers for alpine") | [![](https://images.microbadger.com/badges/commit/vwout/openluup:alpine.svg)](https://microbadger.com/images/vwout/openluup:alpine "Docker image git commit for alpine") |
+| Base image                  | Label | Layers | Vcs Revision |
+|-----------------------------|-------|--------|--------------|
+| Debian 12 'Bookworm' (slim) | [![](https://images.microbadger.com/badges/version/vwout/openluup:slim.svg)](https://microbadger.com/images/vwout/openluup:slim "Docker image version for Debian") | [![](https://images.microbadger.com/badges/image/vwout/openluup:slim.svg)](https://microbadger.com/images/vwout/openluup:slim "Docker image layers for Debian") | [![](https://images.microbadger.com/badges/commit/vwout/openluup:slim.svg)](https://microbadger.com/images/vwout/openluup:slim "Docker image git commit for Debian") |
+| Alpine 3.20                 | [![](https://images.microbadger.com/badges/version/vwout/openluup:alpine.svg)](https://microbadger.com/images/vwout/openluup:alpine "Docker image version for alpine") | [![](https://images.microbadger.com/badges/image/vwout/openluup:alpine.svg)](https://microbadger.com/images/vwout/openluup:alpine "Docker image layers for alpine") | [![](https://images.microbadger.com/badges/commit/vwout/openluup:alpine.svg)](https://microbadger.com/images/vwout/openluup:alpine "Docker image git commit for alpine") |
 
 ## Running
 To start openLuup, invoke docker and add options like volume mounts (see below) to your liking:

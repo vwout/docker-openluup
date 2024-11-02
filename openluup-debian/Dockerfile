@@ -1,7 +1,6 @@
-# Use Debian 10 'Buster' minimal image as base for building luacoap
-FROM debian:buster-slim as coap-build-build
+# Use Debian 12 'Bookworm' minimal image as base for building luacoap
+FROM debian:bookworm-slim AS coap-build-build
 
-ARG LUAJIT_VERSION=2.1.0~beta3+dfsg-5.1
 ARG LUACOAP_RELEASE=443fa5f82921350b8cc5212834dd557af584ae8a
 
 # Add required packages
@@ -21,21 +20,21 @@ RUN git clone https://github.com/vwout/luacoap && \
 
 
 ##############################################################################
-# Use Debian 10 'Buster' minimal image as base
-FROM debian:buster-slim
+# Use Debian 12 'Bookworm' minimal image as base
+FROM debian:bookworm-slim
 
-MAINTAINER "Vwout <vwout@users.noreply.github.com>"
+ARG LUAJIT_VERSION=2.1.0~beta3+git20220320+dfsg-4.1
 
 # Add required packages
 RUN apt-get update && \
-    apt-get install -y curl iputils-ping &&  \
-    apt-get install -y openssl luajit=2.1.0~beta3+dfsg-5.1 lua5.1 liblua5.1-0 lua-socket lua-filesystem lua-sec lua-bit32 lua-bitop lua-cjson lua-expat \
+    apt-get install -y ca-certificates curl iputils-ping &&  \
+    apt-get install -y openssl luajit=${LUAJIT_VERSION} lua5.1 liblua5.1-0 lua-socket lua-filesystem lua-sec lua-bit32 lua-bitop lua-cjson lua-expat \
  && rm -rf /var/lib/apt/lists/*
 
 # Build arguments to set metadata labels
 ARG BUILD_DATE
 ARG VCS_REF
-ARG IMAGE_VERSION="0.1.0"
+ARG IMAGE_VERSION="0.2.0"
 ARG OPENLUUP_FORK="akbooer"
 ARG OPENLUUP_BRANCH="master"
 
