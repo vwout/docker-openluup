@@ -1,6 +1,9 @@
- # docker-openluup
+# docker-openluup
 
 A Dockerfile and [Composefile](blob/master/docker-compose.yml) for creation of a [Debian](blob/master/openluup/Dockerfile) or [Alpine](blob/master/openluup-alpine/Dockerfile) based openluup container.
+
+> [!WARNING]
+> I'm no longer using the LUUP platform of my Vera. This repo is therefore no longer maintained.
 
 [OpenLuup](https://github.com/akbooer/openLuup) is a pure Lua open-source emulation of the [Vera](http://getvera.com/) Luup environment.
 This image provides a runtime environment and includes all Vera Lua libraries.
